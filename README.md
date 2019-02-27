@@ -1,1 +1,1 @@
-# H5player_RTSP_over_websocket
+需要和服务端建立wewbsocket，使用RTSP协议进行传输，通过MSE进行播放
