@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>player</title>
+</head>
+<body>
+    <video width="1400" height="600" id="video"></video>
+    <canvas id="canvas" ></canvas>
+<button id="close">close</button>
+</body>
+<!--<script src="./node_modules/file-saver/FileSaver.js"/>-->
+<!--<script src="./src/md5.js" type="text/javascript"></script>-->
+<script type="module">
+    import Player from "./src/player.js";
+
+    const options = {
+        video: document.getElementById('video'),
+        canvas: document.getElementById('canvas'),
+        wsUrl: 'ws://10.24.1.30:9500',
+        rtspUrl: 'rtsp://10.24.1.235:554/cam/realmonitor?channel=1&subtype=0',
+        user: 'admin',
+        pwd: 'admin'
+    }
+    let player = new Player(options);
+    player.init();
+    player.on('error', function () {
+        console.log('connect fail')
+    });
+    player.on('noStream', function () {
+        console.log('noStream');
+        player = null;
+        player = new Player(options);
+        player.init();
+        player.connect();
+    });
+
+    player.connect();
+
+    document.getElementById('close').onclick = ()=>{
+        player.close();
+    }
+</script>
+<script>
+</script>
+</html>
